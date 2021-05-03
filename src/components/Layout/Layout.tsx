@@ -1,4 +1,3 @@
-import { Drawer, Typography } from "@material-ui/core";
 import { ReactNode } from "react";
 import Navbar from "../navigation/navbar/Navbar";
 import SideNav from "../navigation/sidenav/SideNav";

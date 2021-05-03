@@ -1,15 +1,14 @@
-import { Drawer, List, ListItem, ListItemText, ListItemIcon, Typography } from "@material-ui/core";
-import { AddCircleOutline, HomeOutlined } from "@material-ui/icons";
-import useStyles from './styles'
-import HomeIcon from '@material-ui/icons/Home';
+import { Drawer, List, ListItem, ListItemIcon, ListItemText, Typography } from "@material-ui/core";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import SettingsIcon from '@material-ui/icons/Settings';
 import AssessmentIcon from '@material-ui/icons/Assessment';
-import { useHistory } from "react-router";
+import HomeIcon from '@material-ui/icons/Home';
+import SettingsIcon from '@material-ui/icons/Settings';
 import { useState } from "react";
+import { useHistory } from "react-router";
+import useStyles from './styles';
 
 
-interface MenuItemProps
+interface SideMenuItemProps
 {
     item: MenuItem;
     selected_item: string;
@@ -39,14 +38,14 @@ function SideNav()
         <Drawer variant='permanent' anchor='left' className={styles.drawer} classes={{ paper: styles.drawer }}>
             <Typography variant='h5' >Menu</Typography>
             <List>
-                {menu_items.map(item => <MenuItem selected_item={selected_text} setSelectedItem={setSelectedText} key={item.text} item={item} />)}
+                {menu_items.map(item => <SideMenuItem selected_item={selected_text} setSelectedItem={setSelectedText} key={item.text} item={item} />)}
             </List>
         </Drawer>
     )
 }
 
 
-function MenuItem({ item, selected_item, setSelectedItem }: MenuItemProps)
+function SideMenuItem({ item, selected_item, setSelectedItem }: SideMenuItemProps)
 {
     const history = useHistory();
     const handleClick = () => { history.push(item.path); setSelectedItem(item.text) }

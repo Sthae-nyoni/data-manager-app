@@ -3,9 +3,9 @@ import { Layout } from './components';
 import { Add, Analysis, Home, Notifications, Settings } from './pages';
 
 
-
 function App()
 {
+
   return (
     <Router>
       <Layout>
