@@ -32,13 +32,14 @@ const menu_items = [
 function SideNav()
 {
     const styles = useStyles();
-    const [selected_text, setSelectedText] = useState('Home');
+    const [selected_text, setSelectedItem] = useState('');
+
 
     return (
         <Drawer variant='permanent' anchor='left' className={styles.drawer} classes={{ paper: styles.drawer }}>
             <Typography variant='h5' >Menu</Typography>
             <List>
-                {menu_items.map(item => <SideMenuItem selected_item={selected_text} setSelectedItem={setSelectedText} key={item.text} item={item} />)}
+                {menu_items.map(item => <SideMenuItem selected_item={selected_text} setSelectedItem={setSelectedItem} key={item.text} item={item} />)}
             </List>
         </Drawer>
     )

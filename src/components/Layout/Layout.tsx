@@ -8,9 +8,11 @@ interface LayoutProps
     children: ReactNode
 }
 
+
 function Layout({ children }: LayoutProps)
 {
     const styles = useStyles();
+
     return (
         <div className={styles.container}>
             <Navbar />
