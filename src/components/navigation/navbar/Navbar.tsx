@@ -26,6 +26,12 @@ const add_nav_items = [
     { text: 'Track custom session', path: '/add/custom_session', is_clickable: true },
 ]
 
+const settings_nav_items = [
+    { text: 'Package settings', path: '/settings', is_clickable: true },
+    { text: 'Reset', path: '/settings/reset', is_clickable: true },
+]
+
+
 function Navbar()
 {
     const styles = useStyles();
@@ -36,8 +42,8 @@ function Navbar()
         setNavItems(home_nav_items);
     else if (location.pathname.includes('/add') && nav_items !== add_nav_items)
         setNavItems(add_nav_items)
-    else if (location.pathname === '/settings' && nav_items.length > 0)
-        setNavItems([]);
+    else if (location.pathname.includes('/settings') && nav_items !== settings_nav_items)
+        setNavItems(settings_nav_items);
     else if (location.pathname === '/analysis' && nav_items.length > 0)
         setNavItems([]);
 

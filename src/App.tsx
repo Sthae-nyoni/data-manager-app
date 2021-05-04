@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Layout } from './components';
-import { Add, AddCustomSession, Analysis, Home, Notifications, Settings } from './pages';
+import { Add, AddCustomSession, Analysis, Home, Notifications, ResetSettings, Settings } from './pages';
 
 
 function App()
@@ -21,6 +21,9 @@ function App()
           </Route>
           <Route exact path='/settings'>
             <Settings />
+          </Route>
+          <Route exact path='/settings/reset'>
+            <ResetSettings />
           </Route>
           <Route exact path='/analysis'>
             <Analysis />
