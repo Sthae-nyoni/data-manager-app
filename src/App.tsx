@@ -1,6 +1,9 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Layout } from './components';
-import { Add, AddCustomSession, Analysis, Home, Notifications, ResetSettings, Settings } from './pages';
+import { Add, AddCustomSession, Calculate, Home, Insights, Notifications, Overview, ResetSettings, Settings } from './pages';
+import { defaults } from 'react-chartjs-2'
+
+defaults.plugins.legend.position = 'bottom'
 
 
 function App()
@@ -25,9 +28,17 @@ function App()
           <Route exact path='/settings/reset'>
             <ResetSettings />
           </Route>
-          <Route exact path='/analysis'>
-            <Analysis />
+
+          <Route exact path='/analysis/overview'>
+            <Overview />
           </Route>
+          <Route exact path='/analysis/insights'>
+            <Insights />
+          </Route>
+          <Route exact path='/analysis/calculate'>
+            <Calculate />
+          </Route>
+
           <Route exact path='/notifications'>
             <Notifications />
           </Route>

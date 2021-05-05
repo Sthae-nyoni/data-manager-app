@@ -26,7 +26,7 @@ const menu_items = [
     { text: 'Home', path: '/', icon: <HomeIcon /> },
     { text: 'Add', path: '/add', icon: <AddCircleIcon /> },
     { text: 'Settings', path: '/settings', icon: <SettingsIcon /> },
-    { text: 'Analysis', path: '/analysis', icon: <AssessmentIcon /> },
+    { text: 'Analysis', path: '/analysis/overview', icon: <AssessmentIcon /> },
 ]
 
 function SideNav()

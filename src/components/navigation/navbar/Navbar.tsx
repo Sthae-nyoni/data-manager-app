@@ -31,6 +31,13 @@ const settings_nav_items = [
     { text: 'Reset', path: '/settings/reset', is_clickable: true },
 ]
 
+const analysis_nav_items = [
+    { text: 'Overview', path: '/analysis/overview', is_clickable: true },
+    { text: 'Insights', path: '/analysis/insights', is_clickable: true },
+    { text: 'Calculate', path: '/analysis/calculate', is_clickable: true },
+]
+
+
 
 function Navbar()
 {
@@ -44,8 +51,8 @@ function Navbar()
         setNavItems(add_nav_items)
     else if (location.pathname.includes('/settings') && nav_items !== settings_nav_items)
         setNavItems(settings_nav_items);
-    else if (location.pathname === '/analysis' && nav_items.length > 0)
-        setNavItems([]);
+    else if (location.pathname.includes('/analysis') && nav_items !== analysis_nav_items)
+        setNavItems(analysis_nav_items);
 
 
     return (
