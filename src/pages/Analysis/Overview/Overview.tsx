@@ -25,10 +25,10 @@ function Overview()
             </Grid>
 
             <Grid container className={styles.graph_container}>
-                <Grid item sm={6}>
+                <Grid item xs={12} sm={6}>
                     <CustomBarChart />
                 </Grid>
-                <Grid item sm={6}>
+                <Grid item xs={12} sm={6}>
                     <DoughnutChart />
                 </Grid>
             </Grid>
@@ -40,7 +40,7 @@ function DataDisplay({ title, day_report, night_report }: DataItem)
 {
     const styles = useStyles();
     return (
-        <Grid item sm={6}>
+        <Grid item xs={12} sm={6}>
             <Typography variant='h5' >{title}</Typography>
             <Paper className={styles.info_container}>
                 <Typography variant='body1' color='textSecondary' >{day_report}  </Typography>
