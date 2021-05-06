@@ -8,7 +8,6 @@ defaults.plugins.legend.position = 'bottom'
 
 function App()
 {
-
   return (
     <Router>
       <Layout>

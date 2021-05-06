@@ -1,4 +1,4 @@
-import { Drawer, List, ListItem, ListItemIcon, ListItemText, Typography } from "@material-ui/core";
+import { Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Typography, useTheme } from "@material-ui/core";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import HomeIcon from '@material-ui/icons/Home';
@@ -22,6 +22,12 @@ interface MenuItem
     path: string;
 }
 
+interface NavProps
+{
+    open_mobile: boolean;
+    setOpenMobile: (open_mobile: boolean) => void;
+}
+
 const menu_items = [
     { text: 'Home', path: '/', icon: <HomeIcon /> },
     { text: 'Add', path: '/add', icon: <AddCircleIcon /> },
@@ -29,19 +35,34 @@ const menu_items = [
     { text: 'Analysis', path: '/analysis/overview', icon: <AssessmentIcon /> },
 ]
 
-function SideNav()
+
+function SideNav({ open_mobile, setOpenMobile }: NavProps)
 {
+    const theme = useTheme();
     const styles = useStyles();
     const [selected_text, setSelectedItem] = useState('');
 
+    const handleDrawerToggle = () => setOpenMobile(!open_mobile);
 
     return (
-        <Drawer variant='permanent' anchor='left' className={styles.drawer} classes={{ paper: styles.drawer }}>
-            <Typography variant='h5' >Menu</Typography>
-            <List>
-                {menu_items.map(item => <SideMenuItem selected_item={selected_text} setSelectedItem={setSelectedItem} key={item.text} item={item} />)}
-            </List>
-        </Drawer>
+        <>
+            <Hidden smUp implementation="css">
+                <Drawer variant='temporary' open={open_mobile} onClose={handleDrawerToggle} anchor='left' className={styles.drawer} classes={{ paper: styles.drawer }}>
+                    <Typography variant='h5' >Menu</Typography>
+                    <List>
+                        {menu_items.map(item => <SideMenuItem selected_item={selected_text} setSelectedItem={setSelectedItem} key={item.text} item={item} />)}
+                    </List>
+                </Drawer>
+            </Hidden>
+            <Hidden xsDown implementation='css' >
+                <Drawer variant='permanent' anchor='left' className={styles.drawer} classes={{ paper: styles.drawer }}>
+                    <Typography variant='h5' >Menu</Typography>
+                    <List>
+                        {menu_items.map(item => <SideMenuItem selected_item={selected_text} setSelectedItem={setSelectedItem} key={item.text} item={item} />)}
+                    </List>
+                </Drawer>
+            </Hidden>
+        </>
     )
 }
 
