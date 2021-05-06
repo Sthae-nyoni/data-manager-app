@@ -1,7 +1,7 @@
 import { Typography } from '@material-ui/core';
-import { Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart } from 'recharts';
-
+import { Bar, BarChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import useStyles from './styles';
+
 
 const data = [
     {

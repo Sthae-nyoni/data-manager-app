@@ -1,6 +1,5 @@
 import { Container, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
-import { DataTable } from "../../components";
 import useStyles from './styles';
 
 interface DataItemProps

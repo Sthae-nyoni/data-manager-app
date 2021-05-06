@@ -1,8 +1,8 @@
 import DateFnsUtils from '@date-io/date-fns';
-import { Card, CardHeader, CardContent, Avatar, Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography, Paper } from "@material-ui/core";
+import { Avatar, Card, CardContent, CardHeader, Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import { useState } from "react";
-import { CustomAreaChart, CustomBarChart, DataTable, DoughnutChart } from '../../../components';
+import { CustomAreaChart, CustomBarChart, DataTable } from '../../../components';
 import useStyles from './styles';
 
 

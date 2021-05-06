@@ -1,4 +1,4 @@
-import { Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Typography, useTheme } from "@material-ui/core";
+import { Drawer, Hidden, List, ListItem, ListItemIcon, ListItemText, Typography } from "@material-ui/core";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import HomeIcon from '@material-ui/icons/Home';
@@ -38,7 +38,6 @@ const menu_items = [
 
 function SideNav({ open_mobile, setOpenMobile }: NavProps)
 {
-    const theme = useTheme();
     const styles = useStyles();
     const [selected_text, setSelectedItem] = useState('');
 
