@@ -1,5 +1,5 @@
 import { Typography } from '@material-ui/core';
-import { Cell, Pie, PieChart, Tooltip, Legend } from 'recharts';
+import { Cell, Pie, PieChart, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import useStyles from './styles';
 
 const data = [
@@ -32,13 +32,15 @@ function Chart()
 
 
     return (
-        <PieChart width={600} height={300} >
-            <Pie data={data} innerRadius={75} outerRadius={120} cx='45%' cy='45%' fill="#8884d8" dataKey="value"  >
-                {data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)}
-            </Pie>
-            <Tooltip formatter={(value: number, name: string) => [(value / total * 100).toFixed(2) + '%', name + ' used']} />
-            <Legend />
-        </PieChart>
+        <ResponsiveContainer width='100%' height={300}>
+            <PieChart >
+                <Pie data={data} innerRadius={75} outerRadius={120} cx='50%' cy='45%' fill="#8884d8" dataKey="value"  >
+                    {data.map((entry, index) => <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />)}
+                </Pie>
+                <Tooltip formatter={(value: number, name: string) => [(value / total * 100).toFixed(2) + '%', name + ' used']} />
+                <Legend />
+            </PieChart>
+        </ResponsiveContainer>
     )
 }
 

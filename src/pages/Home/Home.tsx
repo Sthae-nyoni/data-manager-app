@@ -130,16 +130,15 @@ function DataItem({ description, value }: DataItemProps)
 }
 
 
-const StyledTableCell = withStyles((theme: Theme) =>
-    createStyles({
-        head: {
-            backgroundColor: theme.palette.common.black,
-            color: theme.palette.common.white,
-        },
-        body: {
-            fontSize: 14,
-        },
-    }),
+const StyledTableCell = withStyles((theme: Theme) => createStyles({
+    head: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    body: {
+        fontSize: 14,
+    },
+}),
 )(TableCell);
 
 const StyledTableRow = withStyles((theme: Theme) =>

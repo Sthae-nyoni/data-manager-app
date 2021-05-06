@@ -50,14 +50,16 @@ function CustomBarChart()
 function Chart()
 {
     return (
-        <BarChart width={500} height={300} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5, }}>
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip cursor={false} contentStyle={{ background: '#424242' }} formatter={(value: number, name: string) => [value + ' GB', name.replace('_', ' ')]} />
-            <Legend formatter={(value: string) => value.replace('_', ' ')} />
-            <Bar dataKey="day_usage" fill="rgba(54, 125, 235, 0.5)" />
-            <Bar dataKey="night_usage" fill="#82ca9d" />
-        </BarChart>
+        <ResponsiveContainer width='100%' height={350}>
+            <BarChart data={data} >
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip cursor={false} contentStyle={{ background: '#424242' }} formatter={(value: number, name: string) => [value + ' GB', name.replace('_', ' ')]} />
+                <Legend formatter={(value: string) => value.replace('_', ' ')} />
+                <Bar dataKey="day_usage" fill="rgba(54, 125, 235, 0.5)" />
+                <Bar dataKey="night_usage" fill="#82ca9d" />
+             </BarChart>
+        </ResponsiveContainer >
     )
 }
 
