@@ -12,9 +12,6 @@ const useStyles = makeStyles(theme => ({
     description: {
         marginLeft: theme.spacing(1)
     },
-    table: {
-   //     minWidth: 650,
-    },
     section: {
         marginTop: theme.spacing(5)
     }

@@ -139,13 +139,11 @@ function ReportVisualisationSection()
             <Grid item xs={12} >
                 <DataTable />
             </Grid>
-            <Grid container item xs={12}>
-                <Grid item xs={12} sm={6}>
-                    <CustomBarChart />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <CustomAreaChart />
-                </Grid>
+            <Grid item xs={12} sm={6}>
+                <CustomBarChart />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <CustomAreaChart />
             </Grid>
         </Grid>
     )
@@ -153,10 +151,9 @@ function ReportVisualisationSection()
 
 function ReportSection({ user_id }: ReportProps)
 {
-    const styles = useStyles();
     const user = users[user_id];
     return (
-        <Card className={styles.report}>
+        <Card >
             <CardHeader title={user.name} subheader="usage between 5 May and 26 May" avatar={<UserAvatar user_name={user.name} />} />
             <CardContent>
                 {user.stats.map(stat => <ReportStat key={stat.stat} stat={stat.stat} value={stat.value} unit={stat.unit} />)}
@@ -180,11 +177,11 @@ function UserAvatar({ user_name }: AvatarProps)
 function ReportStat({ stat, value, unit }: Statistic)
 {
     return (
-        <Grid container>
-            <Grid item sm={8} >
-                <Typography variant='body1'>{stat}</Typography>
+        <Grid container spacing={2}>
+            <Grid item xs={8} sm={8} >
+                <Typography variant='body1'>{stat + ':'}</Typography>
             </Grid>
-            <Grid item sm={4} >
+            <Grid item xs={4} sm={4} >
                 <Typography variant='body1'>{value + unit}</Typography>
             </Grid>
         </Grid>
@@ -196,7 +193,7 @@ function ParameterSetterSection()
     const styles = useStyles()
     const [selected_range, setSelectedRange] = useState('');
     return (
-        <Grid className={styles.parameter_control_section} container spacing={1}>
+        <Grid className={styles.parameter_control_section} container spacing={2}>
             <Grid item xs={12}>
                 <Typography variant='h5'>Set analysis parameters</Typography>
             </Grid>

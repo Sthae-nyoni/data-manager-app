@@ -8,7 +8,12 @@ const useStyles = makeStyles(theme => ({
     container: {
         width: '85%',
         marginLeft: 'auto',
-        marginRight: 'auto'
+        marginRight: 'auto',
+        [theme.breakpoints.down('xs')]: {
+            width: '95%',
+            marginRight: 'auto',
+            marginLeft: 'auto',
+        }
     },
     title: {
         marginBottom: theme.spacing(2)
@@ -24,7 +29,8 @@ const useStyles = makeStyles(theme => ({
         marginBottom: theme.spacing(3)
     },
     formControl: {
-        margin: theme.spacing(1),
+        // margin: theme.spacing(1),
+        marginRight: theme.spacing(1),
         minWidth: 120,
     },
     selectEmpty: {
@@ -33,11 +39,6 @@ const useStyles = makeStyles(theme => ({
     avatar: {
         backgroundColor: lightBlue[600],
     },
-    report: {
-   //     width: '70%',
-        // marginLeft: 'auto',
-     //   marginRight: 'auto'
-    }
 }));
 
 export default useStyles;

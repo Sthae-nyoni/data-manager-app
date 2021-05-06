@@ -1,5 +1,6 @@
 import { Container, Grid, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@material-ui/core";
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { DataTable } from "../../components";
 import useStyles from './styles';
 
 interface DataItemProps
@@ -60,7 +61,7 @@ function RecentSection()
         <section className={styles.section}>
             <Typography variant='h5' >Recent Usage</Typography>
             <TableContainer component={Paper}>
-                <Table className={styles.table} aria-label="simple table">
+                <Table>
                     <DataTableHeading />
                     <DataTableBody />
                 </Table>
