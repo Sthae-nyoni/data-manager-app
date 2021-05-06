@@ -14,14 +14,14 @@ const useStyles = makeStyles(theme => ({
         display: 'flex'
     },
     field: {
-        width: '70%'
+  //      width: '70%'
     },
     paper: {
         width: '80%',
         height: 100
     },
     container: {
-        width: '50%',
+   //     width: '50%',
         marginTop: theme.spacing(3),
         marginLeft: 'auto',
         marginRight: 'auto'

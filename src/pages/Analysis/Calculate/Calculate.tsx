@@ -35,8 +35,14 @@ function CalculationSection({ description, heading }: CalculationSectionProps)
             </AccordionSummary>
 
             <AccordionDetails>
-                <Typography variant='h6'>{description}</Typography>
-                <CalculationForm />
+                <Grid container>
+                    <Grid item xs={12} >
+                        <Typography variant='h6'>{description}</Typography>
+                    </Grid>
+                    <Grid item container xs={12}  spacing={2}>
+                        <CalculationForm />
+                    </Grid>
+                </Grid>
             </AccordionDetails>
         </Accordion>
     )
@@ -46,18 +52,17 @@ function CalculationForm()
 {
     const styles = useStyles();
     return (
-        <Grid container className={styles.container} spacing={2}>
+        <>
             <Grid item xs={12} className={styles.flex_container}>
-                <div className={styles.field}>
-                    <TextField label='Days' fullWidth />
+                <div >
+                    <TextField label='Days' />
                 </div>
                 <Button className={styles.button} variant='contained' color='primary'> Calculate</Button>
             </Grid>
-
-            <Grid item xs={12}>
+            <Grid item xs={12} >
                 <Typography variant='h6'>The required usage rate is 0.54GB</Typography>
             </Grid>
-        </Grid>
+        </>
     )
 }
 
