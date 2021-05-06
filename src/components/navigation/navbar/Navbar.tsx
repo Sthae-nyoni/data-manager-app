@@ -1,6 +1,14 @@
-import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
+import { AppBar, Toolbar, Tooltip } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
+import AddBoxIcon from '@material-ui/icons/AddBox';
+import DataUsageIcon from '@material-ui/icons/DataUsage';
 import MenuIcon from '@material-ui/icons/Menu';
+import SettingsApplicationsIcon from '@material-ui/icons/SettingsApplications';
+import RestoreIcon from '@material-ui/icons/Restore';
+import TrendingUpIcon from '@material-ui/icons/TrendingUp';
+import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
+import FunctionsIcon from '@material-ui/icons/Functions';
+
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router";
 import useStyles from './styles';
@@ -16,27 +24,24 @@ interface NavItem
 {
     text: string;
     path: string;
-    is_clickable: boolean;
+    icon: React.ReactNode;
 }
 
-const home_nav_items = [
-    { text: 'Home', path: '/', is_clickable: false }
-]
 
 const add_nav_items = [
-    { text: 'Session', path: '/add', is_clickable: true },
-    { text: 'Track custom session', path: '/add/custom_session', is_clickable: true },
+    { text: 'Current session', path: '/add', icon: <DataUsageIcon fontSize='large' /> },
+    { text: 'Add custom session', path: '/add/custom_session', icon: <AddBoxIcon fontSize='large' /> },
 ]
 
 const settings_nav_items = [
-    { text: 'Package settings', path: '/settings', is_clickable: true },
-    { text: 'Reset', path: '/settings/reset', is_clickable: true },
+    { text: 'Package settings', path: '/settings', icon: <SettingsApplicationsIcon fontSize='large' /> },
+    { text: 'Reset value settings', path: '/settings/reset', icon: <RestoreIcon fontSize='large' /> },
 ]
 
 const analysis_nav_items = [
-    { text: 'Overview', path: '/analysis/overview', is_clickable: true },
-    { text: 'Insights', path: '/analysis/insights', is_clickable: true },
-    { text: 'Calculate', path: '/analysis/calculate', is_clickable: true },
+    { text: 'Overview', path: '/analysis/overview', icon: <TrendingUpIcon fontSize='large' /> },
+    { text: 'Insights', path: '/analysis/insights', icon: <EmojiObjectsIcon fontSize='large' /> },
+    { text: 'Calculate', path: '/analysis/calculate', icon: <FunctionsIcon fontSize='large' /> },
 ]
 
 interface NavProps
@@ -75,21 +80,19 @@ function TopNavItem({ nav_item }: TopNavItemProps)
     const history = useHistory()
     return (
         <>
-            {
-                !nav_item.is_clickable ?
-                    <Typography variant='h6'>{nav_item.text}</Typography> :
-                    <Button color='inherit' onClick={() => history.push(nav_item.path)} >
-                        <Typography variant='h6'>{nav_item.text}</Typography>
-                    </Button>
-            }
+            <Tooltip title={nav_item.text}>
+                <IconButton onClick={() => history.push(nav_item.path)} >
+                    {nav_item.icon}
+                </IconButton>
+            </Tooltip>
         </>
     )
 }
 
 function syncNavItems(path: string, nav_items: NavItem[], setNavItems: (nav_items: NavItem[]) => void)
 {
-    if (path === '/' && nav_items !== home_nav_items)
-        setNavItems(home_nav_items);
+    if (path === '/' && nav_items.length > 0)
+        setNavItems([]);
     else if (path.includes('/add') && nav_items !== add_nav_items)
         setNavItems(add_nav_items)
     else if (path.includes('/settings') && nav_items !== settings_nav_items)
@@ -98,14 +101,6 @@ function syncNavItems(path: string, nav_items: NavItem[], setNavItems: (nav_item
         setNavItems(analysis_nav_items);
 }
 
-// if (location.pathname === '/' && nav_items !== home_nav_items)
-//     setNavItems(home_nav_items);
-// else if (location.pathname.includes('/add') && nav_items !== add_nav_items)
-//     setNavItems(add_nav_items)
-// else if (location.pathname.includes('/settings') && nav_items !== settings_nav_items)
-//     setNavItems(settings_nav_items);
-// else if (location.pathname.includes('/analysis') && nav_items !== analysis_nav_items)
-//     setNavItems(analysis_nav_items);
 
 
 export default Navbar;

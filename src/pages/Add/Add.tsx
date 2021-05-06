@@ -23,13 +23,13 @@ function PreviousReading()
                 <Grid item md={6}>
                     <Container>
                         <Typography variant='body2' color='textSecondary'>Previous day package reading</Typography>
-                        <Typography variant='h5' >23.56</Typography>
+                        <Typography variant='h5' >23.56GB</Typography>
                     </Container>
                 </Grid>
                 <Grid item md={6}>
                     <Container>
                         <Typography variant='body2' color='textSecondary'>Previous night package reading</Typography>
-                        <Typography variant='h5' >27.45</Typography>
+                        <Typography variant='h5' >27.45GB</Typography>
                     </Container>
                 </Grid>
             </Grid>
