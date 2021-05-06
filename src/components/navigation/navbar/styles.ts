@@ -4,14 +4,14 @@ import { drawer_width } from '../sidenav/styles'
 
 const useStyles = makeStyles(theme => ({
     appbar: {
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             width: `calc(100% - ${drawer_width}px)`,
             marginLeft: drawer_width,
         },
     },
     menuButton: {
         marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             display: 'none',
         },
     },

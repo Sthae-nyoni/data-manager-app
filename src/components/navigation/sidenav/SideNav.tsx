@@ -46,7 +46,7 @@ function SideNav({ open_mobile, setOpenMobile }: NavProps)
 
     return (
         <>
-            <Hidden smUp implementation="css">
+            <Hidden mdUp implementation="css">
                 <Drawer variant='temporary' open={open_mobile} onClose={handleDrawerToggle} anchor='left' className={styles.drawer} classes={{ paper: styles.drawer }}>
                     <Typography variant='h5' >Menu</Typography>
                     <List>
@@ -54,7 +54,7 @@ function SideNav({ open_mobile, setOpenMobile }: NavProps)
                     </List>
                 </Drawer>
             </Hidden>
-            <Hidden xsDown implementation='css' >
+            <Hidden smDown implementation='css' >
                 <Drawer variant='permanent' anchor='left' className={styles.drawer} classes={{ paper: styles.drawer }}>
                     <Typography variant='h5' >Menu</Typography>
                     <List>

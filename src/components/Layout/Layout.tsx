@@ -12,7 +12,7 @@ interface LayoutProps
 function Layout({ children }: LayoutProps)
 {
     const styles = useStyles();
-    const [open_mobile, setMobileOpen] = useState(true);
+    const [open_mobile, setMobileOpen] = useState(false);
 
     return (
         <div className={styles.container}>

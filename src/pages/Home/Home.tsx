@@ -26,7 +26,7 @@ const overview_items = [
     { description: 'Total usage', value: 7.25 },
     { description: 'Day usage', value: 5.23 },
     { description: 'Night usage', value: 2.15 },
-    { description: 'Budget standing', value: -3.62 },
+    { description: 'Budget report', value: -3.62 },
 ]
 
 function Home()
@@ -58,13 +58,14 @@ function RecentSection()
 
     return (
         <section className={styles.section}>
+            <Typography variant='h5' >Recent Usage</Typography>
             <TableContainer component={Paper}>
                 <Table className={styles.table} aria-label="simple table">
                     <DataTableHeading />
                     <DataTableBody />
                 </Table>
             </TableContainer>
-        </section>
+        </section >
     )
 }
 
@@ -122,7 +123,7 @@ function DataItem({ description, value }: DataItemProps)
     const styles = useStyles();
 
     return (
-        <Grid item xs={6} sm={3}>
+        <Grid item xs={6} md={3}>
             <Typography className={styles.description} variant='body2' color='textSecondary'>{description}</Typography>
             <Typography className={styles.value} variant='h6' color='secondary' >{value}</Typography>
         </Grid>
