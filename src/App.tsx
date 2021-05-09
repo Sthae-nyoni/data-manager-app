@@ -3,7 +3,7 @@ import { Layout } from './components';
 import { Add, AddCustomSession, Calculate, Home, Insights, Notifications, Overview, ResetSettings, Settings } from './pages';
 import { defaults } from 'react-chartjs-2'
 
-import { rows, column_names, overview_items } from './constants/StaticData'
+import { rows, column_names, overview_items, previous_reading } from './constants/StaticData'
 
 defaults.plugins.legend.position = 'bottom'
 
@@ -18,7 +18,7 @@ function App()
             <Home table_data={{ columns: column_names, row_data: rows }} overview_data={overview_items} />
           </Route>
           <Route exact path='/add'>
-            <Add />
+            <Add previous_reading={previous_reading} />
           </Route>
           <Route exact path='/add/custom_session' >
             <AddCustomSession />

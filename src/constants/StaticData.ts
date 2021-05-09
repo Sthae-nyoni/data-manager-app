@@ -8,6 +8,10 @@ function createData(date: string, day_usage: number, night_usage: number, total_
     return { date, day_usage, night_usage, total_usage, budget };
 }
 
+export const previous_reading = [
+    { title: 'Previous night package reading', value: 23.56 },
+    { title: 'Previous day package reading', value: 15.89 },
+]
 
 export const overview_items = [
     { description: 'Total usage', value: 7.25 },
