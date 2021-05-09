@@ -2,16 +2,83 @@ import { Container, Grid, Paper, Table, TableBody, TableCell, TableContainer, Ta
 import { createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import useStyles from './styles';
 
-interface DataItemProps
+
+
+interface HomeContentProps
 {
-    description: string;
-    value: number;
+    table_data: RecentSectionProps;
+    overview_data: DataItemProps[];
 }
 
-interface DataTableRowProps
+function Home({ table_data, overview_data }: HomeContentProps)
 {
-    row: DataRow;
+    const styles = useStyles();
+
+    return (
+        <Container className={styles.section}>
+            <OverviewSection overview_items={overview_data} />
+            <RecentSection columns={table_data.columns} row_data={table_data.row_data} />
+        </Container>
+    )
 }
+
+
+interface RecentSectionProps
+{
+    columns: string[];
+    row_data: DataRow[];
+}
+
+function RecentSection({ columns, row_data }: RecentSectionProps)
+{
+    const styles = useStyles();
+
+    return (
+        <section className={styles.section}>
+            <Typography variant='h5' >Recent Usage</Typography>
+            <TableContainer component={Paper}>
+                <Table>
+                    <DataTableHeading column_names={columns} />
+                    <DataTableBody rows={row_data} />
+                </Table>
+            </TableContainer>
+        </section >
+    )
+}
+
+
+interface TableHeadingProps
+{
+    column_names: string[]
+}
+
+function DataTableHeading({ column_names }: TableHeadingProps)
+{
+    return (
+        <TableHead>
+            <TableRow>
+                {column_names.map(column => <TableCell key={column}>{column}</TableCell>)}
+            </TableRow>
+        </TableHead>
+    )
+}
+
+
+interface TableBodyProps
+{
+    rows: DataRow[];
+}
+
+function DataTableBody({ rows }: TableBodyProps)
+{
+    return (
+        <TableBody>
+            {rows.map(row => <DataTableRow key={row.date} row={row} />)}
+        </TableBody>
+    )
+}
+
+
 
 interface DataRow
 {
@@ -22,75 +89,9 @@ interface DataRow
     budget: number;
 }
 
-const overview_items = [
-    { description: 'Total usage', value: 7.25 },
-    { description: 'Day usage', value: 5.23 },
-    { description: 'Night usage', value: 2.15 },
-    { description: 'Budget report', value: -3.62 },
-]
-
-
-
-
-function Home()
+interface DataTableRowProps
 {
-    const styles = useStyles();
-
-    return (
-        <Container className={styles.section}>
-            <OverviewSection />
-            <RecentSection />
-        </Container>
-    )
-}
-
-function createData(date: string, day_usage: number, night_usage: number, total_usage: number, budget: number)
-{
-    return { date, day_usage, night_usage, total_usage, budget };
-}
-
-const rows = [
-    createData('Mon', 0.96, .32, 1.56, -2.33),
-    createData('Tue', 1.24, 0.80, 3.5, -5.77),
-    createData('Wed', 0.13, 0.10, 0.25, -4.6),
-];
-
-function RecentSection()
-{
-    const styles = useStyles();
-
-    return (
-        <section className={styles.section}>
-            <Typography variant='h5' >Recent Usage</Typography>
-            <TableContainer component={Paper}>
-                <Table>
-                    <DataTableHeading />
-                    <DataTableBody />
-                </Table>
-            </TableContainer>
-        </section >
-    )
-}
-
-function DataTableHeading()
-{
-    const columns = ['Date', 'Day usage', 'Night usage', 'Total usage', 'Bugdget'];
-    return (
-        <TableHead>
-            <TableRow>
-                {columns.map(column => <TableCell key={column}>{column}</TableCell>)}
-            </TableRow>
-        </TableHead>
-    )
-}
-
-function DataTableBody()
-{
-    return (
-        <TableBody>
-            {rows.map(row => <DataTableRow key={row.date} row={row} />)}
-        </TableBody>
-    )
+    row: DataRow;
 }
 
 function DataTableRow({ row }: DataTableRowProps)
@@ -106,7 +107,13 @@ function DataTableRow({ row }: DataTableRowProps)
     )
 }
 
-function OverviewSection()
+
+interface OverviewSectionProps
+{
+    overview_items: DataItemProps[];
+}
+
+function OverviewSection({ overview_items }: OverviewSectionProps)
 {
     const styles = useStyles();
     return (
@@ -119,6 +126,15 @@ function OverviewSection()
             </Paper>
         </section>
     )
+}
+
+
+
+
+interface DataItemProps
+{
+    description: string;
+    value: number;
 }
 
 function DataItem({ description, value }: DataItemProps)
