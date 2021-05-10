@@ -13,6 +13,21 @@ export const previous_reading = [
     { title: 'Previous day package reading', value: 15.89 },
 ]
 
+export const default_values_form_object = {
+    optimal_usage_threshold: '',
+    warning_threshold: '',
+    over_usage_threshold: '',
+    under_usage_threshold: ''
+}
+
+export const default_value_fields = [
+    { label: 'Optimal usage threshold', name: 'optimal_usage_threshold' },
+    { label: 'Warning threshold', name: 'warning_threshold' },
+    { label: 'Over usage threshold', name: 'over_usage_threshold' },
+    { label: 'Under usage threshold', name: 'under_usage_threshold' }
+];
+
+
 export const overview_items = [
     { description: 'Total usage', value: 7.25 },
     { description: 'Day usage', value: 5.23 },

@@ -65,8 +65,8 @@ function Navbar({ open_mobile, setOpenMobile }: NavProps)
     return (
         <AppBar elevation={0} className={styles.appbar} >
             <Toolbar>
-                <IconButton onClick={handleDrawerToggle} className={styles.menuButton} color="inherit" aria-label="open drawer" edge="start">
-                    <MenuIcon />
+                <IconButton onClick={handleDrawerToggle} className={styles.menuButton} color="inherit" edge="start">
+                    <MenuIcon fontSize='large' />
                 </IconButton>
                 {nav_items.map(item => <TopNavItem key={item.text} nav_item={item} />)}
             </Toolbar>
