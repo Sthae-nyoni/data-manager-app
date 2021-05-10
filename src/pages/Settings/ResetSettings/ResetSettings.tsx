@@ -1,38 +1,58 @@
 import { Button, Container, Grid, Paper, Typography } from "@material-ui/core";
 import useStyles from './styles'
 
-interface Item
+
+
+interface Props
 {
-    name: string;
-    value: number;
+    default_values: Item[];
 }
 
-const default_values = [
-    { name: 'Default optimal usage', value: 0.85 },
-    { name: 'Default warning threshold', value: 1.05 },
-    { name: 'Default over usage threshold', value: 1.50 },
-    { name: 'Default under usage threshold', value: 0.25 },
-]
-
-function ResetSettings()
+function ResetSettings({ default_values }: Props)
 {
     const styles = useStyles();
     return (
         <Container className={styles.container}>
-            <div className={styles.toolbar} />
-            <Typography variant='h4' >Reset values to the defaults given below</Typography>
-            <div className={styles.toolbar} />
+            <PageTitle />
             <Paper>
                 <Grid container spacing={2}>
                     {default_values.map(value => <DataItem key={value.name} name={value.name} value={value.value} />)}
                 </Grid>
             </Paper>
-            <div className={styles.toolbar} />
-            <Button variant='contained' color='primary' size='large'>Reset</Button>
+            <ResetButton />
         </Container>
     )
 }
 
+function PageTitle()
+{
+    const styles = useStyles();
+    return (
+        <>
+            <div className={styles.toolbar} />
+            <Typography variant='h4' >Reset values to the defaults given below</Typography>
+            <div className={styles.toolbar} />
+        </>
+    )
+}
+
+
+function ResetButton()
+{
+    const styles = useStyles();
+    return (
+        <>
+            <div className={styles.toolbar} />
+            <Button variant='contained' color='primary' size='large'>Reset</Button>
+        </>
+    )
+}
+
+interface Item
+{
+    name: string;
+    value: number;
+}
 
 function DataItem({ name, value }: Item)
 {

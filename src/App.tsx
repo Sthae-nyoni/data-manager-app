@@ -3,7 +3,7 @@ import { Layout } from './components';
 import { Add, AddCustomSession, Calculate, Home, Insights, Notifications, Overview, ResetSettings, Settings } from './pages';
 import { defaults } from 'react-chartjs-2'
 
-import { rows, column_names, overview_items, previous_reading, default_value_fields, default_values_form_object } from './constants/StaticData'
+import { rows, column_names, overview_items, previous_reading, default_values, default_value_fields, default_values_form_object } from './constants/StaticData'
 
 defaults.plugins.legend.position = 'bottom'
 
@@ -14,20 +14,23 @@ function App()
     <Router>
       <Layout>
         <Switch>
+          
           <Route exact path='/'>
             <Home table_data={{ columns: column_names, row_data: rows }} overview_data={overview_items} />
           </Route>
+
           <Route exact path='/add'>
             <Add previous_reading={previous_reading} />
           </Route>
           <Route exact path='/add/custom_session' >
             <AddCustomSession />
           </Route>
+
           <Route exact path='/settings'>
             <Settings values={default_value_fields} form_object={default_values_form_object} />
           </Route>
           <Route exact path='/settings/reset'>
-            <ResetSettings />
+            <ResetSettings default_values={default_values} />
           </Route>
 
           <Route exact path='/analysis/overview'>

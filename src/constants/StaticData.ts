@@ -8,6 +8,13 @@ function createData(date: string, day_usage: number, night_usage: number, total_
     return { date, day_usage, night_usage, total_usage, budget };
 }
 
+export const default_values = [
+    { name: 'Default optimal usage', value: 0.85 },
+    { name: 'Default warning threshold', value: 1.05 },
+    { name: 'Default over usage threshold', value: 1.50 },
+    { name: 'Default under usage threshold', value: 0.25 },
+]
+
 export const previous_reading = [
     { title: 'Previous night package reading', value: 23.56 },
     { title: 'Previous day package reading', value: 15.89 },
