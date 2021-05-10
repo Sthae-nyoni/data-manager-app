@@ -1,11 +1,17 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Layout } from './components';
+import { Layout, CustomBarChart, DoughnutChart } from './components';
 import { Add, AddCustomSession, Calculate, Home, Insights, Notifications, Overview, ResetSettings, Settings } from './pages';
 import { defaults } from 'react-chartjs-2'
 
-import { rows, column_names, overview_items, previous_reading, default_values, default_value_fields, default_values_form_object } from './constants/StaticData'
+import { rows, column_names, pie_chart_data, bar_chart_data, overview_items, previous_reading, default_values, default_value_fields, default_values_form_object, report_items } from './constants/StaticData'
 
 defaults.plugins.legend.position = 'bottom'
+
+
+const charts = [
+  <CustomBarChart title='Overall usage' data={bar_chart_data} />,
+  <DoughnutChart title='Member usage' chart_data={pie_chart_data} />
+]
 
 
 function App()
@@ -14,7 +20,7 @@ function App()
     <Router>
       <Layout>
         <Switch>
-          
+
           <Route exact path='/'>
             <Home table_data={{ columns: column_names, row_data: rows }} overview_data={overview_items} />
           </Route>
@@ -34,7 +40,7 @@ function App()
           </Route>
 
           <Route exact path='/analysis/overview'>
-            <Overview />
+            <Overview report_items={report_items} charts={charts} />
           </Route>
           <Route exact path='/analysis/insights'>
             <Insights />

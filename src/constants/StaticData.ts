@@ -1,5 +1,34 @@
 
 
+export const bar_chart_data = [
+    {
+        name: 'Mon',
+        day_usage: 1.35,
+        night_usage: 0.45
+    },
+    {
+        name: 'Tue',
+        day_usage: 0.35,
+        night_usage: 0.25
+    },
+    {
+        name: 'Wed',
+        day_usage: 1.75,
+        night_usage: 0.73
+    },
+    {
+        name: 'Thu',
+        day_usage: 0.62,
+        night_usage: 0.33
+    },
+    {
+        name: 'Fri',
+        day_usage: 0.77,
+        night_usage: 1.23
+    },
+];
+
+
 
 
 
@@ -7,6 +36,29 @@ function createData(date: string, day_usage: number, night_usage: number, total_
 {
     return { date, day_usage, night_usage, total_usage, budget };
 }
+
+export interface ChartData extends Record<string, number | string>
+{
+    name: string;
+}
+
+export const pie_chart_data = {
+    data: [
+        { name: 'Dumo', value: 350 },
+        { name: 'Nkosi', value: 300 },
+        { name: 'Sthae', value: 600 },
+        { name: 'Mama', value: 100 },
+        { name: 'Sasthae', value: 120 },
+    ],
+    colors: ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#82ca9d']
+};
+
+
+export const report_items = [
+    { title: 'Usage Report', reports: ['You have used 4.65 GB of the night package', 'You have used 4.65 GB of the night package'] },
+    { title: 'Budget Report', reports: ['You are 4 days behind budget on the night package', 'You are 7 days behind budget on the night package'] },
+]
+
 
 export const default_values = [
     { name: 'Default optimal usage', value: 0.85 },

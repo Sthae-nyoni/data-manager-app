@@ -1,53 +1,50 @@
 import { Typography } from '@material-ui/core';
 import { Bar, BarChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { ChartData } from '../../../constants/StaticData';
 import useStyles from './styles';
 
 
-const data = [
-    {
-        name: 'Mon',
-        day_usage: 1.35,
-        night_usage: 0.45
-    },
-    {
-        name: 'Tue',
-        day_usage: 0.35,
-        night_usage: 0.25
-    },
-    {
-        name: 'Wed',
-        day_usage: 1.75,
-        night_usage: 0.73
-    },
-    {
-        name: 'Thu',
-        day_usage: 0.62,
-        night_usage: 0.33
-    },
-    {
-        name: 'Fri',
-        day_usage: 0.77,
-        night_usage: 1.23
-    },
-];
+interface CustomBarChartProps
+{
+    title: string;
+    data: ChartData[];
+}
 
-
-function CustomBarChart()
+function CustomBarChart({ title, data }: CustomBarChartProps)
 {
     const styles = useStyles();
     return (
-        <>
-            <div className={styles.title}>
-                <Typography variant='h6' align='center'>Overall Usage</Typography>
-            </div>
+        <div>
+            <ChartTitle title={title} />
             <div>
-                <Chart />
+                <Chart data={data} />
             </div>
-        </>
+        </div>
     )
 }
 
-function Chart()
+
+interface ChartTitleProps
+{
+    title: string;
+}
+function ChartTitle({ title }: ChartTitleProps)
+{
+    const styles = useStyles();
+    return (
+        <div className={styles.title}>
+            <Typography variant='h6' align='center'>{title}</Typography>
+        </div>
+    )
+}
+
+
+interface ChartProps
+{
+    data: ChartData[];
+}
+
+function Chart({ data }: ChartProps)
 {
     return (
         <ResponsiveContainer width='100%' height={350}>
@@ -58,9 +55,11 @@ function Chart()
                 <Legend formatter={(value: string) => value.replace('_', ' ')} />
                 <Bar dataKey="day_usage" fill="rgba(54, 125, 235, 0.5)" />
                 <Bar dataKey="night_usage" fill="#82ca9d" />
-             </BarChart>
+            </BarChart>
         </ResponsiveContainer >
     )
 }
+
+
 
 export default CustomBarChart;
