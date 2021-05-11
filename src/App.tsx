@@ -3,7 +3,7 @@ import { Layout, CustomBarChart, DoughnutChart } from './components';
 import { Add, AddCustomSession, Calculate, Home, Insights, Notifications, Overview, ResetSettings, Settings } from './pages';
 import { defaults } from 'react-chartjs-2'
 
-import { rows, column_names, pie_chart_data, bar_chart_data, overview_items, previous_reading, default_values, default_value_fields, default_values_form_object, report_items } from './constants/StaticData'
+import { rows, column_names, options, users, pie_chart_data, bar_chart_data, overview_items, previous_reading, default_values, default_value_fields, default_values_form_object, report_items } from './metadata/constants/StaticData'
 
 defaults.plugins.legend.position = 'bottom'
 
@@ -43,7 +43,7 @@ function App()
             <Overview report_items={report_items} charts={charts} />
           </Route>
           <Route exact path='/analysis/insights'>
-            <Insights />
+            <Insights users={users} options={options} />
           </Route>
           <Route exact path='/analysis/calculate'>
             <Calculate />

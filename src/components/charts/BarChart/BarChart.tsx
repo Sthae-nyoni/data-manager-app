@@ -1,18 +1,18 @@
 import { Typography } from '@material-ui/core';
 import { Bar, BarChart, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { ChartData } from '../../../constants/StaticData';
+import { ChartData } from '../../../metadata/constants/StaticData';
+import { Usage } from '../../../metadata/models/models';
 import useStyles from './styles';
 
 
 interface CustomBarChartProps
 {
     title: string;
-    data: ChartData[];
+    data: Usage[];
 }
 
 function CustomBarChart({ title, data }: CustomBarChartProps)
 {
-    const styles = useStyles();
     return (
         <div>
             <ChartTitle title={title} />
@@ -41,7 +41,7 @@ function ChartTitle({ title }: ChartTitleProps)
 
 interface ChartProps
 {
-    data: ChartData[];
+    data: Usage[];
 }
 
 function Chart({ data }: ChartProps)
@@ -49,12 +49,12 @@ function Chart({ data }: ChartProps)
     return (
         <ResponsiveContainer width='100%' height={350}>
             <BarChart data={data} >
-                <XAxis dataKey="name" />
+                <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip cursor={false} contentStyle={{ background: '#424242' }} formatter={(value: number, name: string) => [value + ' GB', name.replace('_', ' ')]} />
-                <Legend formatter={(value: string) => value.replace('_', ' ')} />
                 <Bar dataKey="day_usage" fill="rgba(54, 125, 235, 0.5)" />
                 <Bar dataKey="night_usage" fill="#82ca9d" />
+                <Legend formatter={(value: string) => value.replace('_', ' ')} />
             </BarChart>
         </ResponsiveContainer >
     )

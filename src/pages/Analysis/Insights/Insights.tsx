@@ -1,16 +1,115 @@
 import DateFnsUtils from '@date-io/date-fns';
+import { format, subDays } from 'date-fns'
 import { Avatar, Card, CardContent, CardHeader, Container, FormControl, Grid, InputLabel, MenuItem, Select, Typography } from "@material-ui/core";
 import { KeyboardDateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CustomAreaChart, CustomBarChart, DataTable } from '../../../components';
 import useStyles from './styles';
+import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { column_names as COLUMN_NAMES, range_map } from '../../../metadata/constants/StaticData';
+import { Usage, User } from '../../../metadata/models/models';
 
 
-interface SelectItem
+
+
+
+
+interface InsightProps
 {
-    name: string;
-    value: string;
+    users: User[];
+    options: { users: SelectItem[], periods: SelectItem[] }
 }
+
+function Insights({ users, options }: InsightProps)
+{
+    const styles = useStyles();
+    const [selected_range, setSelectedRange] = useState('week');
+    const [default_range, setDefaultRange] = useState(range_map.week);
+    const [selected_user, setSelectedUser] = useState('sthae');
+    const [target_user, setTargetUser] = useState(users[0]);
+    const [custom_range, setCustomRange] = useState('');
+
+
+    useEffect(() => setTargetUser(users.find(user => user.id === selected_user) || users[0]), [selected_user])
+    useEffect(() => setAnalysisRange(selected_range, setDefaultRange, setCustomRange), [selected_range])
+
+
+    return (
+        <Container className={styles.container}>
+            <ParameterSetterSection select_options={options} selected_range={selected_range} setCustomRange={setCustomRange} setSelectedRange={setSelectedRange} selected_user={selected_user} setSelectedUser={setSelectedUser} />
+            <ReportSection user={target_user} selected_period={selected_range} range={custom_range || default_range} />
+            <ReportVisualisationSection user={target_user} selected_range={selected_range} />
+        </Container>
+    )
+}
+
+interface DataVisualisationProps
+{
+    user: User;
+    selected_range: string;
+}
+
+function ReportVisualisationSection({ user, selected_range }: DataVisualisationProps)
+{
+    const styles = useStyles();
+    const [usage_data, setUsageData] = useState<Usage[]>([]);
+
+    useEffect(() => updateTableData(user, selected_range, setUsageData));
+
+    return (
+        <div className={styles.section}>
+            <Typography variant='h5'>Usage details for {user.name} </Typography>
+            <Grid className={styles.spacing} container spacing={2}>
+                <TableReport usage_data={usage_data} />
+                <ChartReport user_name={user.name} usage_data={usage_data} />
+            </Grid>
+        </div>
+    )
+}
+
+interface TableReportProps
+{
+    usage_data: Usage[];
+}
+
+function TableReport({ usage_data }: TableReportProps)
+{
+    return (
+        <Grid item xs={12}>
+            <DataTable table_data={usage_data} column_names={COLUMN_NAMES} />
+        </Grid>
+    )
+}
+
+function updateTableData(user: User, selected_range: string, setUsage: (usage: Usage[]) => void)
+{
+    const usage = user.usage_stats
+        .find(stat => stat.period === selected_range)?.data
+
+    setUsage(usage as Usage[]);
+}
+
+interface ChartReportProps
+{
+    user_name: string;
+    usage_data: Usage[];
+}
+
+function ChartReport({ user_name, usage_data }: ChartReportProps)
+{
+    return (
+        <>
+            <Grid item xs={12} sm={6}>
+                <CustomBarChart title={`${user_name}'s usage`} data={usage_data} />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+                <CustomAreaChart title={`Budget report for ${user_name}`} data={usage_data} />
+            </Grid>
+        </>
+    )
+
+}
+
 
 interface Statistic
 {
@@ -19,147 +118,48 @@ interface Statistic
     unit: string;
 }
 
-interface SelectButtonProps
-{
-    label: string;
-    items: SelectItem[];
-    reportSelectedRange?: (selected_range: string) => void
-}
-
 interface ReportProps
 {
-    user_id: number;
+    user: User;
+    range: string;
+    selected_period: string;
 }
+
+function ReportSection({ user, range, selected_period }: ReportProps)
+{
+    const styles = useStyles();
+    const [user_stats, setUserStats] = useState<Statistic[]>([]);
+
+    useEffect(() => updateUserStats(user, selected_period, setUserStats));
+
+    return (
+        <div>
+            <Typography className={styles.title} variant='h4'>Usage summary</Typography>
+            <Card >
+                <CardHeader title={user.name} subheader={range} avatar={<UserAvatar user_name={user.name} />} />
+                <CardContent>
+                    {user_stats.map(stat => <ReportStat key={stat.stat} stat={stat.stat} value={stat.value} unit={stat.unit} />)}
+                </CardContent>
+            </Card>
+        </div >
+    )
+}
+
+function updateUserStats(user: User, range: string, setStats: (stats: Statistic[]) => void)
+{
+    if (range === 'custom')
+        return;
+
+    const user_stats = user.usage_stats
+        .find(stat => stat.period === range)?.statistics;
+
+    setStats(user_stats as Statistic[]);
+}
+
 
 interface AvatarProps
 {
     user_name: string;
-}
-
-interface User
-{
-    id: number;
-    name: string;
-    value: string;
-    stats: Statistic[]
-}
-
-const users = [
-    {
-        name: 'Everyone', value: 'everyone', id: 0,
-        stats: [
-            { stat: 'Highest recorded usage', value: 2.95, unit: 'GB in 1 one day' },
-            { stat: 'Lowest recorded usage', value: 0.78, unit: 'GB in 1 one day' },
-            { stat: 'Average usage', value: 1.56, unit: 'GB per day' },
-            { stat: 'On budget usage', value: 6.9, unit: '% of the time' },
-            { stat: 'Out of budget usage', value: 82.7, unit: '% of the time' },
-        ]
-    },
-    {
-        name: 'Sthae', value: 'sthae', id: 1,
-        stats: [
-            { stat: 'Highest recorded usage', value: 2.35, unit: 'GB in 1 one day' },
-            { stat: 'Lowest recorded usage', value: 0.35, unit: 'GB in 1 one day' },
-            { stat: 'Average usage', value: 1.23, unit: 'GB per day' },
-            { stat: 'On budget usage', value: 4.3, unit: '% of the time' },
-            { stat: 'Out of budget usage', value: 60, unit: '% of the time' },
-        ]
-    },
-    {
-        name: 'Dumo', value: 'dumo', id: 2,
-        stats: [
-            { stat: 'Highest recorded usage', value: 0.76, unit: 'GB in 1 one day' },
-            { stat: 'Lowest recorded usage', value: 0.32, unit: 'GB in 1 one day' },
-            { stat: 'Average usage', value: 0.5, unit: 'GB per day' },
-            { stat: 'On budget usage', value: 27.2, unit: '% of the time' },
-            { stat: 'Out of budget usage', value: 12.4, unit: '% of the time' },
-        ]
-    },
-    {
-        name: 'Nkosi', value: 'nkosi', id: 3,
-        stats: [
-            { stat: 'Highest recorded usage', value: 0.85, unit: 'GB in 1 one day' },
-            { stat: 'Lowest recorded usage', value: 0.11, unit: 'GB in 1 one day' },
-            { stat: 'Average usage', value: 0.45, unit: 'GB per day' },
-            { stat: 'On budget usage', value: 40.3, unit: '% of the time' },
-            { stat: 'Out of budget usage', value: 8.5, unit: '% of the time' },
-        ]
-    },
-    {
-        name: 'Nasthae', value: 'nasthae', id: 4,
-        stats: [
-            { stat: 'Highest recorded usage', value: 0.3, unit: 'GB in 1 one day' },
-            { stat: 'Lowest recorded usage', value: 0.05, unit: 'GB in 1 one day' },
-            { stat: 'Average usage', value: 0.12, unit: 'GB per day' },
-            { stat: 'On budget usage', value: 95.3, unit: '% of the time' },
-            { stat: 'Out of budget usage', value: 1.4, unit: '% of the time' },
-        ]
-    },
-    {
-        name: 'Sasthae', value: 'sasthae', id: 5,
-        stats: [
-            { stat: 'Highest recorded usage', value: 0.63, unit: 'GB in 1 one day' },
-            { stat: 'Lowest recorded usage', value: 0.06, unit: 'GB in 1 one day' },
-            { stat: 'Average usage', value: 0.27, unit: 'GB per day' },
-            { stat: 'On budget usage', value: 93.2, unit: '% of the time' },
-            { stat: 'Out of budget usage', value: 2.5, unit: '% of the time' },
-        ]
-    },
-]
-
-const periods = [
-    { name: 'Week', value: 'week' },
-    { name: 'Day', value: 'day' },
-    { name: '3 Days', value: '3_days' },
-    { name: '2 Weeks', value: '2_weeks' },
-    { name: 'Month', value: 'month' },
-    { name: 'Custom', value: 'custom' },
-]
-
-
-
-function Insights()
-{
-    const styles = useStyles();
-    const [selected_user, setSelectedUser] = useState(0);
-    return (
-        <Container className={styles.container}>
-            <ParameterSetterSection />
-            <ReportSection user_id={selected_user} />
-            <ReportVisualisationSection />
-        </Container>
-    )
-}
-
-function ReportVisualisationSection()
-{
-    const styles = useStyles();
-    return (
-        <Grid className={styles.spacing} container spacing={2}>
-            <Grid item xs={12} >
-                <DataTable />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <CustomBarChart />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <CustomAreaChart />
-            </Grid>
-        </Grid>
-    )
-}
-
-function ReportSection({ user_id }: ReportProps)
-{
-    const user = users[user_id];
-    return (
-        <Card >
-            <CardHeader title={user.name} subheader="usage between 5 May and 26 May" avatar={<UserAvatar user_name={user.name} />} />
-            <CardContent>
-                {user.stats.map(stat => <ReportStat key={stat.stat} stat={stat.stat} value={stat.value} unit={stat.unit} />)}
-            </CardContent>
-        </Card>
-    )
 }
 
 function UserAvatar({ user_name }: AvatarProps)
@@ -173,6 +173,9 @@ function UserAvatar({ user_name }: AvatarProps)
         </Avatar>
     )
 }
+
+
+
 
 function ReportStat({ stat, value, unit }: Statistic)
 {
@@ -188,69 +191,121 @@ function ReportStat({ stat, value, unit }: Statistic)
     )
 }
 
-function ParameterSetterSection()
+
+interface SelectItem
 {
-    const styles = useStyles()
-    const [selected_range, setSelectedRange] = useState('');
+    name: string;
+    value: string;
+}
+
+interface ParameterSetterSectionProps
+{
+    selected_range: string;
+    selected_user: string;
+    select_options: { users: SelectItem[], periods: SelectItem[] }
+    setSelectedUser: (selected_user: string) => void
+    setSelectedRange: (selected_range: string) => void;
+    setCustomRange: (custom_range: string) => void;
+}
+
+function ParameterSetterSection({ selected_range, selected_user, select_options, setSelectedRange, setSelectedUser, setCustomRange }: ParameterSetterSectionProps)
+{
+    const styles = useStyles();
+
     return (
         <Grid className={styles.parameter_control_section} container spacing={2}>
             <Grid item xs={12}>
-                <Typography variant='h5'>Set analysis parameters</Typography>
+                <Typography variant='h4'>Set analysis parameters</Typography>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <ParameterSelectButton label='user' items={users} />
-                <ParameterSelectButton label='period' items={periods} reportSelectedRange={setSelectedRange} />
+                <ParameterSelectButton label='user' items={select_options.users} selected_option={selected_user} setSelectedOption={setSelectedUser} />
+                <ParameterSelectButton label='period' items={select_options.periods} selected_option={selected_range} setSelectedOption={setSelectedRange} />
             </Grid>
             <Grid item xs={12} sm={6}>
-                {selected_range === 'custom' && <CustomRangeSelector />}
+                {selected_range === 'custom' && <CustomRangeSelector setCustomRange={setCustomRange} />}
             </Grid>
         </Grid>
     )
 }
 
-function ParameterSelectButton({ label, items, reportSelectedRange }: SelectButtonProps)
+
+
+interface SelectButtonProps
+{
+    label: string;
+    items: SelectItem[];
+    selected_option: string;
+    setSelectedOption: (selected_option: string) => void
+}
+
+function ParameterSelectButton({ label, items, selected_option, setSelectedOption }: SelectButtonProps)
 {
     const styles = useStyles();
-    const [selected_item, setItem] = useState(items[0].value);
-
-    function handleChange(event: React.ChangeEvent<{ value: unknown }>)
-    {
-        setItem(event.target.value as string);
-        if (reportSelectedRange)
-            reportSelectedRange(event.target.value as string)
-    }
 
     return (
-        <>
-            <FormControl variant="outlined" className={styles.formControl}>
-                <InputLabel id={label + '_select'}>{label}</InputLabel>
-                <Select value={selected_item} label="Age" onChange={handleChange} labelId={label + '_select'} id={label + '_select'} >
-                    {items.map(item => <MenuItem key={item.name} value={item.value} >{item.name}</MenuItem>)}
-                </Select>
-            </FormControl>
-        </>
+        <FormControl variant='outlined' className={styles.formControl}>
+            <InputLabel id={label + '_select'}>{label}</InputLabel>
+            <Select value={selected_option} onChange={e => setSelectedOption(e.target.value as string)} labelId={label + '_select'} id={label + '_select'} >
+                {items.map(item => <MenuItem key={item.name} value={item.value} >{item.name}</MenuItem>)}
+            </Select>
+        </FormControl>
     )
 
 }
 
+interface CustomRangeSelectorProps
+{
+    setCustomRange: (custom_range: string) => void;
+}
 
-function CustomRangeSelector()
+function CustomRangeSelector({ setCustomRange }: CustomRangeSelectorProps)
 {
     const [start_date, setStartDate] = useState<Date | null>(new Date());
     const [end_date, setEndDate] = useState<Date | null>(new Date());
+
+    function onChangeStartDate(date: MaterialUiPickersDate, value?: string | undefined | null)
+    {
+        const selected_range = `Usage between ${value as string} to ${format(end_date as Date, 'd MMMM HH:mm')}`
+        setCustomRange(selected_range);
+        setStartDate(date);
+    }
+
+    function onChangeEndDate(date: MaterialUiPickersDate, value?: string | undefined | null)
+    {
+        const selected_range = `Usage between ${format(start_date as Date, 'd MMMM HH:mm')} and ${value as string}`;
+        setCustomRange(selected_range);
+        setEndDate(date);
+    }
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
             <Grid container spacing={2} >
                 <Grid item xs={12} sm={6}>
-                    <KeyboardDateTimePicker value={start_date} onChange={setStartDate} onError={console.log} variant="dialog" ampm={false} label="From" disablePast format="d MMMM HH:mm" />
+                    <KeyboardDateTimePicker value={start_date} onChange={onChangeStartDate} onError={console.log} variant="dialog" ampm={false} label="From" disablePast format="d MMMM HH:mm" />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <KeyboardDateTimePicker value={end_date} onChange={setEndDate} onError={console.log} variant="dialog" ampm={false} label="To" disablePast format="d MMMM HH:mm" />
+                    <KeyboardDateTimePicker value={end_date} onChange={onChangeEndDate} onError={console.log} variant="dialog" ampm={false} label="To" disablePast format="d MMMM HH:mm" />
                 </Grid>
             </Grid>
         </MuiPickersUtilsProvider >
     );
 }
+
+
+
+function setAnalysisRange(selected_range: string, setDefaultRange: (range: string) => void, setCustomRange: (range: string) => void)
+{
+    if (selected_range === 'custom')
+        return;
+    else if (selected_range !== '')
+    {
+        setCustomRange('');
+        setDefaultRange(range_map[selected_range]);
+    }
+}
+
+
+
+
 
 export default Insights;

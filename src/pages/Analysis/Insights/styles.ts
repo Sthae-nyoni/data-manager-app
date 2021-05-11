@@ -15,6 +15,9 @@ const useStyles = makeStyles(theme => ({
             marginLeft: 'auto',
         }
     },
+    section: {
+        marginTop: theme.spacing(3)
+    },
     title: {
         marginBottom: theme.spacing(2)
     },
