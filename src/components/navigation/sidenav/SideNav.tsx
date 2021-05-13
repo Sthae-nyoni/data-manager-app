@@ -8,12 +8,6 @@ import { useHistory } from "react-router";
 import useStyles from './styles';
 
 
-interface SideMenuItemProps
-{
-    item: MenuItem;
-    selected_item: string;
-    setSelectedItem: (value: string) => void;
-}
 
 interface MenuItem
 {
@@ -49,7 +43,7 @@ function SideNav({ open_mobile, setOpenMobile }: NavProps)
                 <Drawer variant='temporary' open={open_mobile} onClose={handleDrawerToggle} anchor='left' className={styles.drawer} classes={{ paper: styles.drawer }}>
                     <Typography variant='h5' >Menu</Typography>
                     <List>
-                        {menu_items.map(item => <SideMenuItem selected_item={selected_text} setSelectedItem={setSelectedItem} key={item.text} item={item} />)}
+                        {menu_items.map(item => <SideMenuItem toggleDrawer={handleDrawerToggle} selected_item={selected_text} setSelectedItem={setSelectedItem} key={item.text} item={item} />)}
                     </List>
                 </Drawer>
             </Hidden>
@@ -66,10 +60,25 @@ function SideNav({ open_mobile, setOpenMobile }: NavProps)
 }
 
 
-function SideMenuItem({ item, selected_item, setSelectedItem }: SideMenuItemProps)
+interface SideMenuItemProps
+{
+    item: MenuItem;
+    selected_item: string;
+    setSelectedItem: (value: string) => void;
+    toggleDrawer?: () => void;
+}
+
+function SideMenuItem({ item, selected_item, setSelectedItem, toggleDrawer }: SideMenuItemProps)
 {
     const history = useHistory();
-    const handleClick = () => { history.push(item.path); setSelectedItem(item.text) }
+
+    function handleClick()
+    {
+        history.push(item.path);
+        setSelectedItem(item.text)
+        if (toggleDrawer)
+            toggleDrawer();
+    }
 
     return (
         <ListItem button selected={item.text === selected_item} onClick={handleClick}>
@@ -78,6 +87,8 @@ function SideMenuItem({ item, selected_item, setSelectedItem }: SideMenuItemProp
         </ListItem>
     )
 }
+
+
 
 
 export default SideNav;

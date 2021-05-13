@@ -46,7 +46,7 @@ function App()
             <Insights users={users} options={options} />
           </Route>
           <Route exact path='/analysis/calculate'>
-            <Calculate />
+            <Calculate remaining_package={12} daily_usage_cap={1} off_budget_days={7} />
           </Route>
 
           <Route exact path='/notifications'>

@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
             marginLeft: drawer_width,
         },
     },
+    toolbar: {
+        backgroundColor: '#424242'
+    },
     menuButton: {
         marginRight: theme.spacing(2),
         [theme.breakpoints.up('md')]: {

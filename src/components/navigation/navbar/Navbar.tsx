@@ -64,7 +64,7 @@ function Navbar({ open_mobile, setOpenMobile }: NavProps)
 
     return (
         <AppBar elevation={0} className={styles.appbar} >
-            <Toolbar>
+            <Toolbar className={styles.toolbar}>
                 <IconButton onClick={handleDrawerToggle} className={styles.menuButton} color="inherit" edge="start">
                     <MenuIcon fontSize='large' />
                 </IconButton>
